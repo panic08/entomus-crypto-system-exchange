@@ -40,7 +40,5 @@ public class CryptoCurrency {
         usdPrice.put(CryptoToken.USDT, getCryptosPrice.getUsdt().getUsd());
         usdPrice.put(CryptoToken.USDC, getCryptosPrice.getUsdc().getUsd());
         usdPrice.put(CryptoToken.DAI, getCryptosPrice.getDai().getUsd());
-
-        System.out.println(usdPrice.get(CryptoToken.BTC));
     }
 }
