@@ -26,6 +26,8 @@ public class ExchangeDto {
 
     private String givenAddress;
 
+    private String givenTxId;
+
     private String obtainAmount;
 
     private CryptoNetwork obtainNetwork;
@@ -35,6 +37,8 @@ public class ExchangeDto {
     private String obtainAddress;
 
     private long expiredAt;
+
+    private Long updatedAt;
 
     private long createdAt;
 }

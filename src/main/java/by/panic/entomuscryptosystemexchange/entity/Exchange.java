@@ -39,6 +39,9 @@ public class Exchange {
     @Column(name = "given_address", nullable = false)
     private String givenAddress;
 
+    @Column(name = "given_tx_id", nullable = true)
+    private String givenTxId;
+
     @Column(name = "obtain_amount", nullable = false)
     private String obtainAmount;
 
@@ -55,6 +58,9 @@ public class Exchange {
 
     @Column(name = "expired_at", nullable = false)
     private Long expiredAt;
+
+    @Column(name = "updated_at", nullable = true)
+    private Long updatedAt;
 
     @Column(name = "created_at", nullable = false)
     private Long createdAt;

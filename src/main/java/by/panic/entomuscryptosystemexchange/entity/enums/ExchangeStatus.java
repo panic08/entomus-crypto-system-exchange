@@ -4,5 +4,6 @@ public enum ExchangeStatus {
     DEPOSIT_WAITING,
     CONFIRMATION_WAITING,
     COMPLETED,
-    ERROR
+    ERROR,
+    EXPIRED
 }
