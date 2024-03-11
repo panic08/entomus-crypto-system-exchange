@@ -49,6 +49,11 @@ public class ExchangeServiceImpl implements ExchangeService {
     @Value("${exchange.fee}")
     private Double exchangeFee;
 
+    /**
+     * Get an exchange-rate of pair give_amount/obtain_amount
+     * For example, we can convert trx to btc using this method, also counting the exchange fee
+     */
+
     @Override
     public GetExchangeRateResponse getRate(String giveAmount, CryptoToken givenToken, CryptoToken obtainToken) {
         double givenTokenCurrency = cryptoCurrency.getUsdPrice().get(givenToken);
@@ -161,6 +166,10 @@ public class ExchangeServiceImpl implements ExchangeService {
                 .obtainToken(obtainToken)
                 .build();
     }
+
+    /**
+     * Create an exchange
+     */
 
     @Override
     @Transactional
@@ -293,11 +302,6 @@ public class ExchangeServiceImpl implements ExchangeService {
             }
         }
 
-//        System.out.println(givenAmountDecimal + " " + givenAmount);
-//
-//        System.out.println(obtainAmountDecimal.toPlainString() + " " + obtainAmount);
-//
-//        //
         givenAmount = existsOnDepositWaitingAmount(givenAmount, createExchangeRequest.getGivenToken());
 
         NodeFactoryReceiveResponse nodeFactoryReceiveResponse = nodeFactoryApi.receive(NodeFactoryReceiveRequest.builder()
@@ -351,11 +355,7 @@ public class ExchangeServiceImpl implements ExchangeService {
                 NodeFactoryGetStatusResponse nodeFactoryGetStatusResponse =
                         nodeFactoryApi.getStatus(nodeFactoryReceiveResponse.getId());
 
-                System.out.println(nodeFactoryGetStatusResponse.getStatus());
-
                 if (nodeFactoryGetStatusResponse.getStatus().equals(NodeFactoryGetStatusStatus.SUCCESS)) {
-                    System.out.println("handle yeping");
-
                     NodeFactorySendRequest nodeFactorySendRequest = NodeFactorySendRequest.builder()
                                             .address(finalNewExchange.getGivenAddress())
                                             .network(finalNewExchange.getGivenNetwork())
@@ -388,8 +388,6 @@ public class ExchangeServiceImpl implements ExchangeService {
                     finalNewExchange.setUpdatedAt(System.currentTimeMillis());
 
                     exchangeRepository.save(finalNewExchange);
-
-                    System.out.println("handle loping");
                 }
 
                 try {
@@ -412,6 +410,10 @@ public class ExchangeServiceImpl implements ExchangeService {
 
         return exchangeDto;
     }
+
+    /**
+     * Get info about the exchange
+     */
 
     @Override
     public ExchangeDto getInfo(String uuid) {
@@ -450,6 +452,10 @@ public class ExchangeServiceImpl implements ExchangeService {
         return exchangeToExchangeDtoMapper.exchangeToExchangeDto(exchange);
     }
 
+    /**
+     * Create qrcode of the exchange
+     */
+
     @Override
     public ResponseEntity<byte[]> createQr(String uuid) {
         String obtainAddress = exchangeRepository.findObtainAddressByUuid(uuid);
@@ -480,7 +486,6 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     private BigInteger existsOnDepositWaitingAmount(BigInteger givenAmount, CryptoToken token) {
-        //System.out.println(givenAmount + " " + exchangeRepository.existsByStatusAndGivenAmountAndGivenToken(ExchangeStatus.DEPOSIT_WAITING, givenAmount.toString(), token));
         if (exchangeRepository.existsByStatusAndGivenAmountAndGivenToken(ExchangeStatus.DEPOSIT_WAITING, givenAmount.toString(), token)) {
             switch (token) {
                 case ETH -> givenAmount = givenAmount.add(BigInteger.valueOf((long) 1e12));

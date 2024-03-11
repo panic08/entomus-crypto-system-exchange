@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.*;
 public class ExchangeController {
     private final ExchangeService exchangeService;
 
-    @Operation(description = "Get exchange-rate of pair give_amount/obtain_amount")
+    @Operation(description = "Get an exchange-rate of pair give_amount/obtain_amount")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "We successfully got exchange-rate data",
+            @ApiResponse(responseCode = "200", description = "We successfully got an exchange-rate data",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GetExchangeRateResponse.class))}),
             @ApiResponse(responseCode = "200", description = "Min {} for exchange",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionHandler.class))})
@@ -37,9 +37,9 @@ public class ExchangeController {
         return exchangeService.getRate(giveAmount, giveToken, obtainToken);
     }
 
-    @Operation(description = "Create exchange")
+    @Operation(description = "Create an exchange")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "We successfully created exchange",
+            @ApiResponse(responseCode = "200", description = "We successfully created an exchange",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ExchangeDto.class))}),
             @ApiResponse(responseCode = "400", description = "You have entered an invalid Network-Token pair || NodeFactory service system error" +
                     " || Min {} for exchange",
@@ -50,9 +50,10 @@ public class ExchangeController {
         return exchangeService.create(createExchangeRequest);
     }
 
-    @Operation(description = "Get an exchange")
+
+    @Operation(description = "Get info about the exchange")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "We successfully got an exchange",
+            @ApiResponse(responseCode = "200", description = "We successfully got info about the exchange",
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = ExchangeDto.class))})
     })
     @GetMapping("/info")
